@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "984640716088",
+    "project_id": "siws-adb3a",
+    "storage_bucket": "siws-adb3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984640716088:android:4dbd4c41184df8a44595cd",
+        "android_client_info": {
+          "package_name": "tu.cit.swis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984640716088-fsh6clh6754f6v958a2inib2ppaslvmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwJy9JRCk8v77DINs8sHLeNyV1e-yNL3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984640716088-fsh6clh6754f6v958a2inib2ppaslvmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
