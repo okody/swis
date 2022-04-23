@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     final box = GetStorage();
     return GetMaterialApp(
         title: 'SIWS',
-        theme: APP_THEME,
+        theme: kAPP_THEME,
         debugShowCheckedModeBanner: false,
         initialBinding: MainBinding(),
         translations: Translation(),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Session_MODEL {
+class SessionMODEL {
   final String? document_id;
   final String? name;
   final Timestamp? date;
@@ -8,7 +8,7 @@ class Session_MODEL {
   final String? device_id;
   String? phone_token;
 
-  Session_MODEL(
+  SessionMODEL(
       {this.name,
       this.date,
       this.battary,
@@ -17,7 +17,7 @@ class Session_MODEL {
       this.document_id});
 
   fromJson(Map<String, dynamic> data) {
-    return Session_MODEL(
+    return SessionMODEL(
         document_id: data["document_id"] ?? "",
         name: data["name"] ?? "",
         date: data["date"] ?? Timestamp.now(),

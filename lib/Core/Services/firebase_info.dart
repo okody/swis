@@ -20,7 +20,7 @@ class Response_MODEL {
     try {
       return mainData.map((thing) => Model.fromJson(thing)).toList();
     } catch (e) {
-      SANKBAR_MESSAGE("Error:\n toListModel<method> Response_Model<class>  $e");
+      snackbar_message("Error:\n toListModel<method> Response_Model<class>  $e");
       print("Error:\n toListModel<method> Response_Model<class>  $e");
       return [];
     }
@@ -32,7 +32,7 @@ class Response_MODEL {
     try {
       return Model.fromJson(mainData);
     } catch (e) {
-      SANKBAR_MESSAGE("Error:\n toModel<method> Response_Model<class>  $e");
+      snackbar_message("Error:\n toModel<method> Response_Model<class>  $e");
       print("Error:\n toModel<method> Response_Model<class>  $e");
       return Model;
     }

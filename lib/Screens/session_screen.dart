@@ -3,63 +3,59 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:swis/Controllers/session_controller.dart';
-import 'package:swis/Controllers/session_controller.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
-import 'package:swis/Core/Utils/helpers/binding.dart';
+import 'package:swis/Core/Controllers/session_controller.dart';
 import 'package:swis/Core/Utils/helpers/strings.dart';
-import 'package:swis/Models/session_model.dart';
 import 'package:swis/Models/session_model.dart';
 import 'package:swis/Screens/Widgets/battery.dart';
 import 'package:swis/Screens/Widgets/screens_head.dart';
 import 'package:swis/Screens/Widgets/search_bar.dart';
-import 'package:intl/intl.dart';
 
-class Session_SCREEN extends StatelessWidget {
-  const Session_SCREEN({Key? key}) : super(key: key);
+class SessionSCREEN extends StatelessWidget {
+  const SessionSCREEN({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return GetBuilder<Session_CONTROLLER>(
-        init: Get.find<Session_CONTROLLER>(),
+    return GetBuilder<SessionCONTROLLER>(
+        init: Get.find<SessionCONTROLLER>(),
         builder: (session_controller) {
           return Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage("assets/images/splash_Background.png"),
                     fit: BoxFit.cover,
                     alignment: Alignment.center),
                 gradient: LinearGradient(
-                    colors: [AlphaColor, BetaColor],
+                    colors: [kAlphaColor, kBetaColor],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: MainPadding / 2),
+              margin: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
               child: Stack(
                 alignment: Alignment.bottomRight,
                 children: [
                   Column(children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 150,
                     ),
                     ScreenHead(
                         context, "Sessions", Ionicons.hardware_chip_outline),
-                    SizedBox(
-                      height: MainPadding,
+                    const SizedBox(
+                      height: kMainPadding,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: MainPadding / 2),
+                          horizontal: kMainPadding / 2),
                       child: SerachBar(context),
                     ),
-                    SizedBox(
-                      height: MainPadding,
+                    const SizedBox(
+                      height: kMainPadding,
                     ),
                     session_controller.obx(
                       (sessions) => Expanded(
                         child: ListView.separated(
-                            padding: EdgeInsets.only(bottom: MainPadding),
+                            padding: EdgeInsets.only(bottom: kMainPadding),
                             separatorBuilder:
                                 (BuildContext context, int index) =>
                                     const Divider(),
@@ -70,10 +66,10 @@ class Session_SCREEN extends StatelessWidget {
                                   index: index,
                                 )),
                       ),
-                      onLoading: Center(child: CircularProgressIndicator()),
-                      onEmpty: Center(child: Text('No products available')),
+                      onLoading: const Center(child: CircularProgressIndicator()),
+                      onEmpty: const Center(child: Text('No products available')),
                       onError: (error) {
-                        SANKBAR_MESSAGE(error);
+                        snackbar_message(error);
                         return Container();
                       },
                     ),
@@ -85,11 +81,11 @@ class Session_SCREEN extends StatelessWidget {
                     child: Container(
                       width: 55,
                       height: 55,
-                      margin: EdgeInsets.all(MainPadding),
+                      margin: const EdgeInsets.all(kMainPadding),
                       decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.5),
                           shape: BoxShape.circle),
-                      child: Icon(
+                      child: const Icon(
                         Icons.add,
                         color: Colors.white,
                         size: 45,
@@ -104,7 +100,7 @@ class Session_SCREEN extends StatelessWidget {
   }
 
   Future<dynamic> AddSessionWidget(
-      BuildContext context, Size size, Session_CONTROLLER session_controller) {
+      BuildContext context, Size size, SessionCONTROLLER session_controller) {
     return showDialog(
         context: context,
         barrierColor: Colors.white.withOpacity(0.5),
@@ -117,11 +113,11 @@ class Session_SCREEN extends StatelessWidget {
                 child: Container(
                   width: size.width,
                   height: size.height * 0.5,
-                  margin: EdgeInsets.all(MainPadding),
+                  margin: EdgeInsets.all(kMainPadding),
                   decoration: BoxDecoration(
-                      color: MainColor.withOpacity(0.3),
-                      border: Border.all(color: MainColor),
-                      borderRadius: BorderRadius.circular(MainRadius)),
+                      color: kMainColor.withOpacity(0.3),
+                      border: Border.all(color: kMainColor),
+                      borderRadius: BorderRadius.circular(kMainRadius)),
                   child:
                       Column(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           // crossAxisAlignment:
@@ -129,13 +125,13 @@ class Session_SCREEN extends StatelessWidget {
                           children: [
                         Padding(
                           padding:
-                              const EdgeInsets.symmetric(vertical: MainPadding),
+                              const EdgeInsets.symmetric(vertical: kMainPadding),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: MainPadding * 2),
+                                    horizontal: kMainPadding * 2),
                                 child: Text(
                                   "Add session",
                                   textAlign: TextAlign.left,
@@ -150,7 +146,7 @@ class Session_SCREEN extends StatelessWidget {
                                 width: size.width,
                                 color: Colors.white,
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: MainPadding / 2),
+                                    horizontal: kMainPadding / 2),
                               )
                             ],
                           ),
@@ -172,12 +168,12 @@ class Session_SCREEN extends StatelessWidget {
                                   Container(
                                     height: 45,
                                     margin: EdgeInsets.symmetric(
-                                        horizontal: MainPadding / 2),
+                                        horizontal: kMainPadding / 2),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        border: Border.all(color: MainColor),
+                                        border: Border.all(color: kMainColor),
                                         borderRadius: BorderRadius.circular(
-                                            MainRadius / 4)),
+                                            kMainRadius / 4)),
                                     child: Card(
                                       elevation: 0.0,
                                       child: TextField(
@@ -187,7 +183,7 @@ class Session_SCREEN extends StatelessWidget {
                                             fontSize: 20,
                                             fontFamily: "main_font"),
                                         textAlign: TextAlign.left,
-                                        cursorColor: MainColor,
+                                        cursorColor: kMainColor,
                                         decoration: InputDecoration(
                                             alignLabelWithHint: true,
                                             hintText:
@@ -215,11 +211,11 @@ class Session_SCREEN extends StatelessWidget {
                               width: 150,
                               height: 50,
                               decoration: BoxDecoration(
-                                  color: MainColor,
+                                  color: kMainColor,
                                   borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(MainRadius),
+                                      topLeft: Radius.circular(kMainRadius),
                                       bottomRight:
-                                          Radius.circular(MainRadius))),
+                                          Radius.circular(kMainRadius))),
                               child: Icon(
                                 Icons.add,
                                 size: 50,
@@ -242,7 +238,7 @@ class SessionCardItem extends StatelessWidget {
       : super(key: key);
 
   final int index;
-  final Session_MODEL session;
+  final SessionMODEL session;
 
   @override
   Widget build(BuildContext context) {
@@ -252,8 +248,8 @@ class SessionCardItem extends StatelessWidget {
       // height: 150.0,
       width: size.width,
       decoration: BoxDecoration(
-        border: Border.all(color: MainColor),
-        borderRadius: BorderRadius.circular(MainRadius / 3),
+        border: Border.all(color: kMainColor),
+        borderRadius: BorderRadius.circular(kMainRadius / 3),
         color: Colors.white.withOpacity(0.5),
       ),
       child:
@@ -268,8 +264,8 @@ class SessionCardItem extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
                   borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(MainRadius / 3),
-                      bottomRight: Radius.circular(MainRadius / 3))),
+                      topLeft: Radius.circular(kMainRadius / 3),
+                      bottomRight: Radius.circular(kMainRadius / 3))),
               child: Center(
                 child: Text(
                   "#${index + 1}",
@@ -281,7 +277,7 @@ class SessionCardItem extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: MainPadding / 2),
+              padding: const EdgeInsets.only(right: kMainPadding / 2),
               child: Icon(
                 Ionicons.ellipsis_vertical,
                 color: Colors.white,
@@ -290,12 +286,12 @@ class SessionCardItem extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: MainPadding,
+          height: kMainPadding,
         ),
 
         // [Main Card Column: Battary and Data Row]
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MainPadding),
+          padding: const EdgeInsets.symmetric(horizontal: kMainPadding),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -311,10 +307,10 @@ class SessionCardItem extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.copy,
-                            color: MainColor,
+                            color: kMainColor,
                           ),
                           SizedBox(
-                            width: MainPadding / 4,
+                            width: kMainPadding / 4,
                           ),
                           Text(
                             "#${session.device_id}",
@@ -330,7 +326,7 @@ class SessionCardItem extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: "main_font",
                             fontSize: 12.5,
-                            color: MainColor.withOpacity(0.5)),
+                            color: kMainColor.withOpacity(0.5)),
                       ),
                     ],
                   ),
@@ -342,10 +338,10 @@ class SessionCardItem extends StatelessWidget {
                         children: [
                           Icon(
                             Icons.copy,
-                            color: MainColor,
+                            color: kMainColor,
                           ),
                           SizedBox(
-                            width: MainPadding / 4,
+                            width: kMainPadding / 4,
                           ),
                           Text(
                             "#${getSubString(session.phone_token!, 20)}",
@@ -361,12 +357,12 @@ class SessionCardItem extends StatelessWidget {
                         style: TextStyle(
                             fontFamily: "main_font",
                             fontSize: 12.5,
-                            color: MainColor.withOpacity(0.5)),
+                            color: kMainColor.withOpacity(0.5)),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: MainPadding / 4,
+                    height: kMainPadding / 4,
                   ),
 
                   //[Main Card Column: Data and Battary: Data Column : 3rd Data dates row]
@@ -390,7 +386,7 @@ class SessionCardItem extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "main_font",
                                 fontSize: 15,
-                                color: MainColor.withOpacity(0.5)),
+                                color: kMainColor.withOpacity(0.5)),
                           ),
                         ],
                       ),
@@ -411,7 +407,7 @@ class SessionCardItem extends StatelessWidget {
                             style: TextStyle(
                                 fontFamily: "main_font",
                                 fontSize: 15,
-                                color: MainColor.withOpacity(0.5)),
+                                color: kMainColor.withOpacity(0.5)),
                           ),
                         ],
                       )

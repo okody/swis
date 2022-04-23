@@ -8,11 +8,11 @@ Widget SerachBar(context) {
     width: size.width,
     height: 50,
     
-    padding: EdgeInsets.symmetric(horizontal: MainPadding / 4),
+    padding: EdgeInsets.symmetric(horizontal: kMainPadding / 4),
     decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.3),
         border: Border.all(color: Colors.grey),
-        borderRadius: BorderRadius.circular(MainRadius / 4)),
+        borderRadius: BorderRadius.circular(kMainRadius / 4)),
     child: Row(children: [
       Row(
         children: [
@@ -22,11 +22,11 @@ Widget SerachBar(context) {
             size: 30,
           ),
           SizedBox(
-            width: MainPadding / 4,
+            width: kMainPadding / 4,
           ),
           Container(
             width: 1.5,
-            margin: EdgeInsets.symmetric(vertical: MainPadding / 4),
+            margin: EdgeInsets.symmetric(vertical: kMainPadding / 4),
             color: Colors.white,
           )
         ],
@@ -36,7 +36,7 @@ Widget SerachBar(context) {
         textAlign: TextAlign.left,
         style: TextStyle(fontFamily: "main_font", fontSize: 15 , color: Colors.white),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: MainPadding / 2),
+            contentPadding: EdgeInsets.symmetric(horizontal: kMainPadding / 2),
             hintText: "Serach..",
             border: InputBorder.none,
             hintStyle: TextStyle(

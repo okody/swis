@@ -16,7 +16,7 @@ Widget ScreenHead(context, String headline, IconData icon) {
               size: 40,
             ),
             SizedBox(
-              width: MainPadding / 2,
+              width: kMainPadding / 2,
             ),
             Text(
               headline.tr,
@@ -29,13 +29,13 @@ Widget ScreenHead(context, String headline, IconData icon) {
           ],
         ),
         SizedBox(
-          height: MainPadding / 3,
+          height: kMainPadding / 3,
         ),
         Container(
           width: size.width,
           height: 1.5,
           color: Colors.white,
-          // margin: EdgeInsets.symmetric(horizontal: MainPadding / 2),
+          // margin: EdgeInsets.symmetric(horizontal: kMainPadding / 2),
         )
       ],
     ),

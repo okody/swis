@@ -14,12 +14,12 @@ class PrivateAppBar extends StatelessWidget {
       height: 125,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(
-          horizontal: MainPadding, vertical: MainPadding),
+          horizontal: kMainPadding, vertical: kMainPadding),
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.05),
           borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(MainRadius),
-              bottomRight: Radius.circular(MainRadius))),
+              bottomLeft: Radius.circular(kMainRadius),
+              bottomRight: Radius.circular(kMainRadius))),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -7,8 +7,8 @@ import 'package:swis/Core/Utils/localstorage.dart';
 import 'package:swis/Models/session_model.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
 
-class Session_CONTROLLER extends GetxController
-    with StateMixin<List<Session_MODEL>> {
+class SessionCONTROLLER extends GetxController
+    with StateMixin<List<SessionMODEL>> {
   /// ====================================== [Instances] ======================================
   /// 1- [Vars]
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
@@ -45,14 +45,14 @@ class Session_CONTROLLER extends GetxController
   }
 
   /// ====================================== [CRUD] ======================================
-  final List<Session_MODEL> _sessions = [];
-  List<Session_MODEL> get sessions => _sessions;
+  final List<SessionMODEL> _sessions = [];
+  List<SessionMODEL> get sessions => _sessions;
 
-  // List<Operation_MODEL> getSessionss(){
+  // List<OperationMODEL> getSessionss(){
   // }
 
   Future<void> onCreateSession(context) async {
-    Session_MODEL session = Session_MODEL(
+    SessionMODEL session = SessionMODEL(
         name: TextFeidlsInfo[2]["textController"].text,
         device_id: TextFeidlsInfo[0]["textController"].text);
     session.updatePhone(await firebaseMessaging.getToken());
@@ -71,48 +71,48 @@ class Session_CONTROLLER extends GetxController
       if (isValid.data) {
         Response_MODEL response = await session_service.createSession(session);
         if (response.success) {
-          SANKBAR_MESSAGE(response.message, success: true);
+          snackbar_message(response.message, success: true);
 
         
 
           localstorage_controller.saveDefaultTank(
-              response.toModel(Session_MODEL(), mainData: response.data));
+              response.toModel(SessionMODEL(), mainData: response.data));
 
           // Navigator.pop(context);
           update();
           refreshSessionList();
         } else {
-          SANKBAR_MESSAGE(response.message);
+          snackbar_message(response.message);
         }
       } else {
-        SANKBAR_MESSAGE("Entred device id or access key are incorrect",
+        snackbar_message("Entred device id or access key are incorrect",
             success: false);
       }
     } else {
-      SANKBAR_MESSAGE(isValid.message);
+      snackbar_message(isValid.message);
     }
   }
 
-  Future<void> onRemoveSession(Session_MODEL session) async {
+  Future<void> onRemoveSession(SessionMODEL session) async {
     Response_MODEL response = await session_service.removeSession(session);
-    SANKBAR_MESSAGE(response.message);
+    snackbar_message(response.message);
   }
 
-  Future<List<Session_MODEL>> get getSessions async {
+  Future<List<SessionMODEL>> get getSessions async {
     Response_MODEL response =
         await session_service.getSesstions(await firebaseMessaging.getToken());
 
     if (response.success) {
       // decode data to a List of Operation Model
       var data =
-          List<Session_MODEL>.from(response.toListModels(Session_MODEL()));
+          List<SessionMODEL>.from(response.toListModels(SessionMODEL()));
       // check if data empty or not , if not the the status is sucess and move data to widget if yes status is empty
 
       localstorage_controller.saveAvailableTanks(data);
       data.isNotEmpty
           ? change(data, status: RxStatus.success())
           : change(null, status: RxStatus.empty());
-      // SANKBAR_MESSAGE(response.message);
+      // snackbar_message(response.message);
 
       // save locally
 

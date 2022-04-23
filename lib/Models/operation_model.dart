@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:swis/Models/session_model.dart';
 
-class Operation_MODEL {
+class OperationMODEL {
   final String? document_id;
   final String? state;
   final String? device_id;
@@ -10,9 +10,9 @@ class Operation_MODEL {
   final num? ph_readings;
   final num? water_flow_rate;
   final num? tank_water_level;
-  Session_MODEL session = Session_MODEL();
+  SessionMODEL session = SessionMODEL();
 
-  Operation_MODEL(
+  OperationMODEL(
       {this.document_id,
       this.state,
       this.date,
@@ -23,7 +23,7 @@ class Operation_MODEL {
       this.device_id});
 
   fromJson(Map<String, dynamic> data) {
-    return Operation_MODEL(
+    return OperationMODEL(
       document_id: data["document_id"] ?? "",
       state: data["state"] ?? "",
       date: data["date"] ?? Timestamp.now(),
@@ -48,7 +48,7 @@ class Operation_MODEL {
   }
 
   // ========================================== [] ==========================================
-  saveOperationSession(List<Session_MODEL> sessions) {
+  saveOperationSession(List<SessionMODEL> sessions) {
     sessions.forEach((element) {
       if (element.device_id == this.device_id) this.session = element;
     });

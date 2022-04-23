@@ -18,9 +18,9 @@ class History_SCREEN extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<Operation_CONTROLLER>(
-        init: Get.find<Operation_CONTROLLER>(),
-        builder: (Operation_CONTROLLER operationController) {
+    return GetBuilder<OperationCOTROLLER>(
+        init: Get.find<OperationCOTROLLER>(),
+        builder: (OperationCOTROLLER operationController) {
           return Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -28,30 +28,30 @@ class History_SCREEN extends StatelessWidget {
                     fit: BoxFit.cover,
                     alignment: Alignment.center),
                 gradient: LinearGradient(
-                    colors: [AlphaColor, BetaColor],
+                    colors: [kAlphaColor, kBetaColor],
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: MainPadding / 2),
+              margin: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
               child: Column(children: [
                 const SizedBox(
                   height: 150,
                 ),
                 ScreenHead(context, "History", Ionicons.server_outline),
                 const SizedBox(
-                  height: MainPadding,
+                  height: kMainPadding,
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: MainPadding / 2),
+                      const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
                   child: SerachBar(context),
                 ),
                 const SizedBox(
-                  height: MainPadding,
+                  height: kMainPadding,
                 ),
-                operationController.obx(
-                  (operations) => Expanded(
-                    child: ListView.separated(
+                Expanded(
+                  child: operationController.obx(
+                    (operations) => ListView.separated(
                         separatorBuilder: (BuildContext context, int index) =>
                             const Divider(),
                         itemCount: operations!.length,
@@ -61,13 +61,13 @@ class History_SCREEN extends StatelessWidget {
                               index: index,
                               operation_controller: operationController,
                             )),
+                    onLoading: const Center(child: CircularProgressIndicator()),
+                    onEmpty: const Center(child: Text('No products available')),
+                    onError: (error) {
+                      snackbar_message(error);
+                      return Container();
+                    },
                   ),
-                  onLoading: const Center(child: CircularProgressIndicator()),
-                  onEmpty: const Center(child: Text('No products available')),
-                  onError: (error) {
-                    SANKBAR_MESSAGE(error);
-                    return Container();
-                  },
                 )
               ]),
             ),
@@ -85,8 +85,8 @@ class HistoryCardItem extends StatelessWidget {
       : super(key: key);
 
   final int index;
-  final Operation_MODEL operation;
-  final Operation_CONTROLLER operation_controller;
+  final OperationMODEL operation;
+  final OperationCOTROLLER operation_controller;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class HistoryCardItem extends StatelessWidget {
       // height: 150.0,
       width: size.width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(MainRadius / 3),
+        borderRadius: BorderRadius.circular(kMainRadius / 3),
         color: Colors.white.withOpacity(0.5),
       ),
       child:
@@ -109,8 +109,8 @@ class HistoryCardItem extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.5),
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(MainRadius / 3),
-                      bottomRight: Radius.circular(MainRadius / 3))),
+                      topLeft: Radius.circular(kMainRadius / 3),
+                      bottomRight: Radius.circular(kMainRadius / 3))),
               child: Center(
                 child: Text(
                   "#${index + 1}",
@@ -122,7 +122,7 @@ class HistoryCardItem extends StatelessWidget {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.only(right: MainPadding / 2),
+              padding: EdgeInsets.only(right: kMainPadding / 2),
               child: Icon(
                 Ionicons.ellipsis_vertical,
                 color: Colors.white,
@@ -131,18 +131,18 @@ class HistoryCardItem extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: MainPadding / 2,
+          height: kMainPadding / 2,
         ),
         Container(
           color: Colors.white,
-          margin: const EdgeInsets.symmetric(horizontal: MainPadding / 2),
+          margin: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
           height: 1.5,
         ),
         const SizedBox(
-          height: MainPadding / 2,
+          height: kMainPadding / 2,
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MainPadding / 2),
+          padding: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -167,7 +167,7 @@ class HistoryCardItem extends StatelessWidget {
                           style: TextStyle(
                               fontFamily: "main_font",
                               fontSize: 12.5,
-                              color: MainColor.withOpacity(0.75)),
+                              color: kMainColor.withOpacity(0.75)),
                         ),
                       ],
                     ),
@@ -188,7 +188,7 @@ class HistoryCardItem extends StatelessWidget {
                           style: TextStyle(
                               fontFamily: "main_font",
                               fontSize: 12.5,
-                              color: MainColor.withOpacity(0.75)),
+                              color: kMainColor.withOpacity(0.75)),
                         ),
                       ],
                     ),
@@ -209,7 +209,7 @@ class HistoryCardItem extends StatelessWidget {
                           style: TextStyle(
                               fontFamily: "main_font",
                               fontSize: 12.5,
-                              color: MainColor.withOpacity(0.75)),
+                              color: kMainColor.withOpacity(0.75)),
                         ),
                       ],
                     )
@@ -217,13 +217,13 @@ class HistoryCardItem extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: MainPadding),
+                margin: const EdgeInsets.symmetric(horizontal: kMainPadding),
                 child: Column(
                   children: [
                     Battery_Level(
                         percentage: operation.session.battary!, height: 30),
                     const SizedBox(
-                      height: MainPadding / 8,
+                      height: kMainPadding / 8,
                     ),
                     Text(
                       "${operation.session.battary! * 100}%",
@@ -240,7 +240,7 @@ class HistoryCardItem extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: MainPadding,
+          height: kMainPadding,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,7 +248,7 @@ class HistoryCardItem extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: MainPadding / 2, bottom: MainPadding / 4),
+                  left: kMainPadding / 2, bottom: kMainPadding / 4),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -260,7 +260,7 @@ class HistoryCardItem extends StatelessWidget {
                         color: Colors.white),
                   ),
                   const SizedBox(
-                    width: MainPadding,
+                    width: kMainPadding,
                   ),
                   Text(
                     "Date:${DateFormat.yMd().add_jm().format(operation.date!.toDate())}",
@@ -280,8 +280,8 @@ class HistoryCardItem extends StatelessWidget {
                   color: operation_controller
                       .getOperationStateColor(operation.state!),
                   borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(MainRadius / 3),
-                      bottomRight: Radius.circular(MainRadius / 3))),
+                      topLeft: Radius.circular(kMainRadius / 3),
+                      bottomRight: Radius.circular(kMainRadius / 3))),
               child: Center(
                 child: Text(
                   "${operation.state}",

@@ -44,41 +44,41 @@ class Localstorage_CONTROLLER extends GetxController {
   }
 
   /// ====================================== [Session] ======================================
-  Future<void> saveDefaultTank(Session_MODEL session) async {
+  Future<void> saveDefaultTank(SessionMODEL session) async {
     await localeStorageBox.write("DefaultTank", json.encode(session.toStore()));
     update();
   }
 
-  Session_MODEL get getDefaultTank {
+  SessionMODEL get getDefaultTank {
     String DefaultTank = localeStorageBox.read("DefaultTank") ?? "";
-    return Response_MODEL().toModel(Session_MODEL(),
+    return Response_MODEL().toModel(SessionMODEL(),
         mainData: DefaultTank.isNotEmpty
             ? json.decode(DefaultTank)
-            : Session_MODEL().toStore());
+            : SessionMODEL().toStore());
   }
 
-  Future<void> saveAvailableTanks(List<Session_MODEL> sessions) async {
+  Future<void> saveAvailableTanks(List<SessionMODEL> sessions) async {
     await localeStorageBox.write("AvailableTanks",
         json.encode(sessions.map((session) => session.toStore()).toList()));
   }
 
-  List<Session_MODEL> getAvailableTanks() {
-    return List<Session_MODEL>.from(Response_MODEL().toListModels(
-        Session_MODEL(),
+  List<SessionMODEL> getAvailableTanks() {
+    return List<SessionMODEL>.from(Response_MODEL().toListModels(
+        SessionMODEL(),
         mainData: json.decode(localeStorageBox.read("AvailableTanks")!)));
   }
 
   /// ====================================== [Operation] ======================================
 
-  // Future<Operation_MODEL> saveLastOperation(Operation_MODEL operation) async {
+  // Future<OperationMODEL> saveLastOperation(OperationMODEL operation) async {
   //   await localeStorageBox.write("lastOperation", json.encode(operation.toStore()));
   //   return operation;
   // }
 
-  // Operation_MODEL getLastOperation() {
-  //   return Operation_MODEL().fromJson(
+  // OperationMODEL getLastOperation() {
+  //   return OperationMODEL().fromJson(
   //       json.decode(localeStorageBox.read("lastOperation")!) ??
-  //           Operation_MODEL().toStore());
+  //           OperationMODEL().toStore());
   // }
 
   /// ========================================================================================

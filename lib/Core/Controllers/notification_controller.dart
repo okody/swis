@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:swis/Controllers/session_controller.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
+import 'package:swis/Core/Controllers/session_controller.dart';
 import 'package:swis/Core/Services/firebase_info.dart';
 import 'package:swis/Core/Services/notification_service.dart';
 import 'package:swis/Models/notification_model.dart';
 import 'package:swis/Models/session_model.dart';
 
-class Notification_CONTROLLER extends GetxController
+class NotificationCONTROLLER extends GetxController
     with StateMixin<List<Notification_MODEL>> {
   /// ====================================== [Instances] ======================================
   /// 1- [Vars]
@@ -20,8 +20,8 @@ class Notification_CONTROLLER extends GetxController
   // List<Notification_MODEL> get notifications => _notifications;
 
   Future<void> getNotifications() async {
-    Session_CONTROLLER session_controller = Get.put(Session_CONTROLLER());
-    List<Session_MODEL> sessions = await session_controller.getSessions;
+    SessionCONTROLLER session_controller = Get.put(SessionCONTROLLER());
+    List<SessionMODEL> sessions = await session_controller.getSessions;
     List<String> devices_ids =
         sessions.map((session) => session.device_id!).toList();
 
@@ -37,7 +37,7 @@ class Notification_CONTROLLER extends GetxController
       data.isNotEmpty
           ? change(data, status: RxStatus.success())
           : change(null, status: RxStatus.empty());
-      // SANKBAR_MESSAGE(response.message);
+      // snackbar_message(response.message);
     } else {
       // if data has error show the letter
       change(null, status: RxStatus.error(response.message));
@@ -46,7 +46,7 @@ class Notification_CONTROLLER extends GetxController
 
   /// ====================================== [Local_Functions] ======================================
 
-  DateTime _getFirstSessionDate(List<Session_MODEL>? sessions) {
+  DateTime _getFirstSessionDate(List<SessionMODEL>? sessions) {
     Timestamp time;
     List<DateTime> dates = [];
     sessions?.forEach((element) => dates.add(element.date!.toDate()));

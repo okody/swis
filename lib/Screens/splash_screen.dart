@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 fit: BoxFit.cover,
                 alignment: Alignment.center),
             gradient: LinearGradient(
-                colors: [AlphaColor, BetaColor],
+                colors: [kAlphaColor, kBetaColor],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter)),
         child: Column(
@@ -47,17 +47,17 @@ class _SplashScreenState extends State<SplashScreen> {
             children: [
               Container(
                   width: size.width,
-                  height: MainPadding * 5,
+                  height: kMainPadding * 5,
                   decoration: const BoxDecoration(
-                    color: AlphaColor,
+                    color: kAlphaColor,
                     borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(MainRadius),
-                        bottomRight: Radius.circular(MainRadius)),
+                        bottomLeft: Radius.circular(kMainRadius),
+                        bottomRight: Radius.circular(kMainRadius)),
                   ),
                   child: Column(
                     children: const [
                       SizedBox(
-                        height: MainPadding * 2,
+                        height: kMainPadding * 2,
                       ),
                       Image(
                         width: 180,
@@ -71,7 +71,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     image: AssetImage("assets/images/swis_logo.png"),
                   ),
                   SizedBox(
-                    height: MainPadding * 2,
+                    height: kMainPadding * 2,
                   ),
                   Image(
                     image: AssetImage("assets/images/splash_icons.png"),
@@ -79,7 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ],
               ),
               const Padding(
-                padding: const EdgeInsets.symmetric(vertical: MainPadding / 2),
+                padding: const EdgeInsets.symmetric(vertical: kMainPadding / 2),
                 child: Opacity(
                   opacity: 0.5,
                   child: Text(

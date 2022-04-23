@@ -1,11 +1,13 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:swis/Core/Services/firebase_info.dart';
 
 class Operation_SERVICE {
   final operationsPath = FirebaseFirestore.instance.collection("Operatoins");
   // final devicesPhat = FirebaseFirestore.instance.collection("Devices");
+  final database = FirebaseDatabase.instance.ref('Operations');
 
   Future<Response_MODEL> getOperations(List<String> devices_list) async {
     return await operationsPath
@@ -25,11 +27,15 @@ class Operation_SERVICE {
             ));
   }
 
-  Future<Response_MODEL> getLastOperation(String device_id) async {
-    return await operationsPath
+  Future<Response_MODEL> getLastOperation(String device_id) {
+    return operationsPath
         .where("device_id", isEqualTo: device_id)
         .orderBy("date")
         .limitToLast(1)
+        // .snapshots()
+        // .map((snapshot) => Response_MODEL(
+        //     data: snapshot.docs.map((e) => e.data()).toList(), success: true));
+
         .get()
         .then((value) => Response_MODEL(
             message: "Operations brought successfully!",

@@ -17,7 +17,7 @@ class Settings_SCREEN extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        backgroundColor: BetaColor,
+        backgroundColor: kBetaColor,
         body: GetBuilder<Localstorage_CONTROLLER>(
             init: Get.find<Localstorage_CONTROLLER>(),
             builder: (controller) {
@@ -33,12 +33,12 @@ class Settings_SCREEN extends StatelessWidget {
                               fit: BoxFit.cover,
                               alignment: Alignment.center),
                           gradient: LinearGradient(
-                              colors: [AlphaColor, BetaColor],
+                              colors: [kAlphaColor, kBetaColor],
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter)),
                       child: Container(
                         margin:
-                            EdgeInsets.symmetric(horizontal: MainPadding / 2),
+                            EdgeInsets.symmetric(horizontal: kMainPadding / 2),
                         child: Column(children: [
                           SizedBox(
                             height: 150,
@@ -49,15 +49,15 @@ class Settings_SCREEN extends StatelessWidget {
                             Icons.settings,
                           ),
                           SizedBox(
-                            height: MainPadding,
+                            height: kMainPadding,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: MainPadding),
+                                vertical: kMainPadding),
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: MainPadding * 2,
+                                  width: kMainPadding * 2,
                                 ),
                                 Text(
                                   "Langague:",
@@ -67,29 +67,29 @@ class Settings_SCREEN extends StatelessWidget {
                                       color: Colors.white),
                                 ),
                                 SizedBox(
-                                  width: MainPadding * 2,
+                                  width: kMainPadding * 2,
                                 ),
                                 Container(
                                   padding: EdgeInsets.symmetric(
-                                      horizontal: MainPadding * 2),
+                                      horizontal: kMainPadding * 2),
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
-                                      border: Border.all(color: MainColor),
+                                      border: Border.all(color: kMainColor),
                                       borderRadius:
-                                          BorderRadius.circular(MainRadius)),
+                                          BorderRadius.circular(kMainRadius)),
                                   child: DropdownButtonHideUnderline(
                                     child: DropdownButton<String>(
-                                      dropdownColor: AlphaColor,
+                                      dropdownColor: kAlphaColor,
                                       value: controller.getLanguage,
                                       icon: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: MainPadding / 2),
+                                            horizontal: kMainPadding / 2),
                                         child: Icon(
                                           Icons.language,
                                           color: Colors.white,
                                         ),
                                       ),
-                                      items: LangaugesDropdownList.map(
+                                      items: langaugesDropdownList.map(
                                           (lang) => DropdownMenuItem(
                                                 value: lang,
                                                 child: Text(
@@ -109,21 +109,21 @@ class Settings_SCREEN extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: MainPadding,
+                            height: kMainPadding,
                           ),
                           Container(
                             width: size.width,
                             height: 1.5,
                             color: Colors.white,
-                            // margin: EdgeInsets.symmetric(horizontal: MainPadding / 2),
+                            // margin: EdgeInsets.symmetric(horizontal: kMainPadding / 2),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: MainPadding),
+                                vertical: kMainPadding),
                             child: Row(
                               children: [
                                 SizedBox(
-                                  width: MainPadding * 2,
+                                  width: kMainPadding * 2,
                                 ),
                                 Text(
                                   "Notification:",
@@ -133,27 +133,27 @@ class Settings_SCREEN extends StatelessWidget {
                                       color: Colors.white),
                                 ),
                                 SizedBox(
-                                  width: MainPadding * 2,
+                                  width: kMainPadding * 2,
                                 ),
                                 Switch(
                                     value: controller.getNotification,
-                                    activeColor: MainColor,
+                                    activeColor: kMainColor,
                                     onChanged: (value) =>
                                         controller.changeNotification())
                               ],
                             ),
                           ),
                           SizedBox(
-                            height: MainPadding,
+                            height: kMainPadding,
                           ),
                           Container(
                             width: size.width,
                             height: 1.5,
                             color: Colors.white,
-                            // margin: EdgeInsets.symmetric(horizontal: MainPadding / 2),
+                            // margin: EdgeInsets.symmetric(horizontal: kMainPadding / 2),
                           ),
                           SizedBox(
-                            height: MainPadding,
+                            height: kMainPadding,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -166,13 +166,13 @@ class Settings_SCREEN extends StatelessWidget {
                                     color: Colors.white),
                               ),
                               SizedBox(
-                                height: MainPadding,
+                                height: kMainPadding,
                               ),
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: MainPadding / 2),
+                                    horizontal: kMainPadding / 2),
                                 child: Text(
-                                  AboutUs,
+                                  aboutUs,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontFamily: "main_font",
@@ -181,7 +181,7 @@ class Settings_SCREEN extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all(MainPadding),
+                                margin: EdgeInsets.all(kMainPadding),
                                 child: Image(
                                   width: 180,
                                   image: AssetImage("assets/images/tu_logo.png"),

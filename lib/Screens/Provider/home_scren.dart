@@ -16,7 +16,7 @@ class Home_SCREEN extends StatelessWidget {
           init: Get.find<Home_CONTROLLER>(),
           builder: (home_controller) {
             return Scaffold(
-              backgroundColor: BetaColor,
+              backgroundColor: kBetaColor,
               body: Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -27,7 +27,7 @@ class Home_SCREEN extends StatelessWidget {
               bottomNavigationBar: BottomNavigationBar(
                 onTap: (int index) =>
                     home_controller.onChangeBottomNavigationBarItem(index),
-                selectedItemColor: MainColor,
+                selectedItemColor: kMainColor,
                 currentIndex: home_controller.currentScreenIndex,
                 unselectedItemColor: Colors.white,
                 

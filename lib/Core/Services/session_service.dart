@@ -19,7 +19,7 @@ class Session_SERVICE {
                 "Something went wrong with check if device exsits \n Reason: $e"));
   }
 
-  Future<Response_MODEL> createSession(Session_MODEL session) async {
+  Future<Response_MODEL> createSession(SessionMODEL session) async {
     bool doesExists = await sessionsPhat
         .where("device_id", isEqualTo: session.device_id)
         .where("phone_token", isEqualTo: session.phone_token)
@@ -53,7 +53,7 @@ class Session_SERVICE {
     }
   }
 
-  Future<Response_MODEL> removeSession(Session_MODEL session) async {
+  Future<Response_MODEL> removeSession(SessionMODEL session) async {
     return await sessionsPhat
         .doc(session.document_id)
         .delete()

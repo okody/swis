@@ -6,7 +6,7 @@ import 'package:swis/Screens/session_screen.dart';
 
 class Home_CONTROLLER extends GetxController {
   /// ====================================== [UIFunctions_Variables] ======================================
-  List<Widget> Screens = [History_SCREEN(), Monitor_SCREEN(), Session_SCREEN()];
+  List<Widget> Screens = [History_SCREEN(), Monitor_SCREEN(), SessionSCREEN()];
   int currentScreenIndex = 0;
   Widget? CurrentScreen;
 

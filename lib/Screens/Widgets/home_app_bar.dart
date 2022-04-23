@@ -15,12 +15,12 @@ class MainBar extends StatelessWidget {
       height: 125,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(
-          horizontal: MainPadding, vertical: MainPadding),
+          horizontal: kMainPadding, vertical: kMainPadding),
       decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.05),
           borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(MainRadius),
-              bottomRight: Radius.circular(MainRadius))),
+              bottomLeft: Radius.circular(kMainRadius),
+              bottomRight: Radius.circular(kMainRadius))),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,11 +35,11 @@ class MainBar extends StatelessWidget {
                   width: 35,
                   height: 35,
                   decoration: BoxDecoration(
-                      color: OmgaColor,
-                      borderRadius: BorderRadius.circular(MainRadius / 8)),
+                      color: kOmgaColor,
+                      borderRadius: BorderRadius.circular(kMainRadius / 8)),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(() => Notification_SCREEN());
+                      Get.to(() => NotificaitonSCREEN());
                     },
                     child: const Icon(
                       Icons.notifications,
@@ -49,7 +49,7 @@ class MainBar extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: MainPadding / 2,
+                  width: kMainPadding / 2,
                 ),
                 GestureDetector(
                   onTap: () {
@@ -59,8 +59,8 @@ class MainBar extends StatelessWidget {
                     width: 45,
                     height: 45,
                     decoration: BoxDecoration(
-                        color: OmgaColor,
-                        borderRadius: BorderRadius.circular(MainRadius / 8)),
+                        color: kOmgaColor,
+                        borderRadius: BorderRadius.circular(kMainRadius / 8)),
                     child: const Icon(
                       Icons.settings,
                       size: 40,
