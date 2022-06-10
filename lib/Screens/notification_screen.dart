@@ -1,20 +1,20 @@
 // ignore_for_file: non_constant_identifier_names, camel_case_types, unused_local_variable
 
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:ms_undraw/ms_undraw.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
 import 'package:swis/Core/Controllers/notification_controller.dart';
 import 'package:swis/Models/notification_model.dart';
+import 'package:swis/Screens/Widgets/empty_result.dart';
 import 'package:swis/Screens/Widgets/private_pages_app_bar.dart';
 import 'package:swis/Screens/Widgets/screens_head.dart';
 import 'package:swis/Screens/Widgets/search_bar.dart';
 import 'package:intl/intl.dart';
 
-class NotificaitonSCREEN extends StatelessWidget {
-  const NotificaitonSCREEN({Key? key}) : super(key: key);
+class NotificationSCREEN extends StatelessWidget {
+  const NotificationSCREEN({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,8 @@ class NotificaitonSCREEN extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter)),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: kMainPadding / 2),
                     child: Column(children: [
                       const SizedBox(
                         height: 150,
@@ -48,18 +49,19 @@ class NotificaitonSCREEN extends StatelessWidget {
                       const SizedBox(
                         height: kMainPadding,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: kMainPadding / 2),
-                        child: SerachBar(context),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       horizontal: kMainPadding / 2),
+                      //   child: SerachBar(context),
+                      // ),
                       const SizedBox(
                         height: kMainPadding,
                       ),
                       notification_controller.obx(
                         (notifications) => Expanded(
                           child: ListView.separated(
-                              padding: const EdgeInsets.only(bottom: kMainPadding),
+                              padding:
+                                  const EdgeInsets.only(bottom: kMainPadding),
                               separatorBuilder:
                                   (BuildContext context, int index) =>
                                       const Divider(),
@@ -70,8 +72,13 @@ class NotificaitonSCREEN extends StatelessWidget {
                                     index: index,
                                   )),
                         ),
-                        onLoading: const Center(child: CircularProgressIndicator()),
-                        onEmpty: const Center(child: Text('No products available')),
+                        onLoading:
+                            const Center(child: CircularProgressIndicator()),
+                        onEmpty: const Center(
+                            child: EmptyResult(
+                          message: "No notifications found",
+                          unDrawIllustration: UnDrawIllustration.notify,
+                        )),
                         onError: (error) {
                           snackbar_message(error);
                           return Container();
@@ -111,57 +118,77 @@ class NotificationCardItem extends StatelessWidget {
       ),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.notifications,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                const SizedBox(
-                  width: kMainPadding / 8,
-                ),
-                Text(
-                  "${notification.title}",
-                  style: const TextStyle(
-                      fontFamily: "main_font",
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: kMainPadding / 2, bottom: kMainPadding / 4),
-              child: Text(
-                DateFormat.yMd().add_jm().format(notification.date!.toDate()).toString(),
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                    fontFamily: "main_font",
-                    fontSize: 12.5,
-                    color: Colors.white),
-              ),
-            ),
-          ],
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Row(
+        //       children: [
+        //         const Icon(
+        //           Icons.notifications,
+        //           size: 30,
+        //           color: Colors.white,
+        //         ),
+        //         const SizedBox(
+        //           width: kMainPadding / 8,
+        //         ),
+        //         Text(
+        //           "${notification.title}",
+        //           style: const TextStyle(
+        //               fontFamily: "main_font",
+        //               fontSize: 15,
+        //               fontWeight: FontWeight.bold,
+
+        //               color: Colors.white),
+        //         ),
+        //       ],
+        //     ),
+        //     Padding(
+        //       padding: const EdgeInsets.only(
+        //           left: kMainPadding / 2, bottom: kMainPadding / 4),
+        //       child: Text(
+        //         DateFormat.yMd()
+        //             .add_jm()
+        //             .format(notification.date!.toDate())
+        //             .toString(),
+        //         textAlign: TextAlign.left,
+        //         style: const TextStyle(
+        //             fontFamily: "main_font",
+        //             fontSize: 12.5,
+        //             color: Colors.white),
+        //       ),
+        //     ),
+        //   ],
+        // ),
+        Text(
+          "${notification.title}",
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+              fontFamily: "main_font",
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.white),
         ),
-        const SizedBox(
-          height: kMainPadding / 4,
-        ),
-        Container(
-          height: 1,
+        const Divider(
           color: Colors.white,
-        ),
-        const SizedBox(
-          height: kMainPadding / 2,
+          thickness: 1.5,
         ),
         Text(
           "${notification.content} ",
           style: const TextStyle(
               fontFamily: "main_font", fontSize: 12.5, color: Colors.white),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+              left: kMainPadding / 2, bottom: kMainPadding / 4),
+          child: Text(
+            DateFormat.yMd()
+                .add_jm()
+                .format(notification.date!.toDate())
+                .toString(),
+            textAlign: TextAlign.left,
+            style: const TextStyle(
+                fontFamily: "main_font", fontSize: 12.5, color: kMainColor),
+          ),
         ),
       ]),
     );

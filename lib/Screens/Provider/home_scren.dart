@@ -31,13 +31,13 @@ class Home_SCREEN extends StatelessWidget {
                 currentIndex: home_controller.currentScreenIndex,
                 unselectedItemColor: Colors.white,
                 
-                items: const [
+                items:  [
                   BottomNavigationBarItem(
-                      icon: Icon(Ionicons.server_outline), label: "History"),
+                      icon: Icon(Ionicons.server_outline), label: "History".tr),
                   BottomNavigationBarItem(
-                      icon: Icon(Ionicons.albums_outline), label: "Monitor"),
+                      icon: Icon(Ionicons.albums_outline), label: "Monitor".tr),
                   BottomNavigationBarItem(
-                      icon: Icon(Ionicons.server_outline), label: "Sessions"),
+                      icon: Icon(Ionicons.server_outline), label: "Sessions".tr),
                 ],
                 backgroundColor: Colors.white.withOpacity(0.25),
               ),

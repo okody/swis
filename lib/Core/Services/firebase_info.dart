@@ -1,14 +1,14 @@
 import 'package:swis/Core/Constants/theme_constants.dart';
 
-class Response_MODEL {
+class ResponseMODEL {
   var data;
   final String? message;
   final bool success;
 
-  Response_MODEL({this.message, this.success = false, this.data});
+  ResponseMODEL({this.message, this.success = false, this.data});
 
-  factory Response_MODEL.fromJson(Map<String, dynamic> _data) {
-    return Response_MODEL(
+  factory ResponseMODEL.fromJson(Map<String, dynamic> _data) {
+    return ResponseMODEL(
         data: _data["data"],
         message: _data["message"],
         success: _data["success"]);

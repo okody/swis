@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
 
 Widget ScreenHead(context, String headline, IconData icon) {
@@ -15,12 +14,13 @@ Widget ScreenHead(context, String headline, IconData icon) {
               color: Colors.white,
               size: 40,
             ),
+            // ignore: prefer_const_constructors
             SizedBox(
               width: kMainPadding / 2,
             ),
             Text(
               headline.tr,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontFamily: "main_font",
                   fontSize: 30,
@@ -28,7 +28,7 @@ Widget ScreenHead(context, String headline, IconData icon) {
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: kMainPadding / 3,
         ),
         Container(

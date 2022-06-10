@@ -4,16 +4,23 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:swis/Core/Services/firebase_info.dart';
 
-class Operation_SERVICE {
-  final operationsPath = FirebaseFirestore.instance.collection("Operatoins");
-  // final devicesPhat = FirebaseFirestore.instance.collection("Devices");
-  final database = FirebaseDatabase.instance.ref('Operations');
+class OperationSERVICE {
+  final operationsPath = FirebaseFirestore.instance.collection("Operations");
 
-  Future<Response_MODEL> getOperations(List<String> devices_list) async {
-    return await operationsPath
+
+  Future<ResponseMODEL> getOperations(List<String>? devices_list) async {
+if(devices_list!.isEmpty) {
+  return ResponseMODEL(
+      success: true,
+      data: []
+    );
+} else {
+  return await operationsPath
+    
         .where("device_id", whereIn: devices_list)
+        .orderBy("date", descending: true)
         .get()
-        .then((value) => Response_MODEL(
+        .then((value) => ResponseMODEL(
             message: "Operations brought successfully!",
             success: true,
             data: value.docs.map((e) {
@@ -21,30 +28,31 @@ class Operation_SERVICE {
               document["document_id"] = e.id;
               return document;
             }).toList()))
-        .catchError((e) => Response_MODEL(
+        .catchError((e) => ResponseMODEL(
               message: "Error fetching the operation!\n reason:$e",
               success: false,
             ));
+}
   }
 
-  Future<Response_MODEL> getLastOperation(String device_id) {
+  Future<ResponseMODEL> getLastOperation(String device_id) {
     return operationsPath
         .where("device_id", isEqualTo: device_id)
-        .orderBy("date")
+        .orderBy("date" , descending: true)
         .limitToLast(1)
         // .snapshots()
-        // .map((snapshot) => Response_MODEL(
+        // .map((snapshot) => ResponseMODEL(
         //     data: snapshot.docs.map((e) => e.data()).toList(), success: true));
 
         .get()
-        .then((value) => Response_MODEL(
+        .then((value) => ResponseMODEL(
             message: "Operations brought successfully!",
             success: true,
             data: value.docs.map((e) {
               e.data()["document_id"] = e.id;
               return e.data();
             }).toList()))
-        .catchError((e) => Response_MODEL(
+        .catchError((e) => ResponseMODEL(
               message: "Error fetching the operation!\n reason:$e",
               success: false,
             ));

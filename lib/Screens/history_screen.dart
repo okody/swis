@@ -1,14 +1,14 @@
-
-
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:ms_undraw/ms_undraw.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
 import 'package:swis/Core/Controllers/operation_controller.dart';
 import 'package:swis/Models/operation_model.dart';
 import 'package:swis/Screens/Widgets/battery.dart';
+import 'package:swis/Screens/Widgets/empty_result.dart';
 import 'package:swis/Screens/Widgets/screens_head.dart';
 import 'package:swis/Screens/Widgets/search_bar.dart';
 import 'package:intl/intl.dart';
@@ -21,55 +21,75 @@ class History_SCREEN extends StatelessWidget {
     return GetBuilder<OperationCOTROLLER>(
         init: Get.find<OperationCOTROLLER>(),
         builder: (OperationCOTROLLER operationController) {
-          return Container(
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/splash_Background.png"),
-                    fit: BoxFit.cover,
-                    alignment: Alignment.center),
-                gradient: LinearGradient(
-                    colors: [kAlphaColor, kBetaColor],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter)),
+          return RefreshIndicator(
+            onRefresh: () async {
+              operationController.featchRefresh();
+              // return true;
+            },
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
-              child: Column(children: [
-                const SizedBox(
-                  height: 150,
-                ),
-                ScreenHead(context, "History", Ionicons.server_outline),
-                const SizedBox(
-                  height: kMainPadding,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
-                  child: SerachBar(context),
-                ),
-                const SizedBox(
-                  height: kMainPadding,
-                ),
-                Expanded(
-                  child: operationController.obx(
-                    (operations) => ListView.separated(
-                        separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(),
-                        itemCount: operations!.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            HistoryCardItem(
-                              operation: operations[index],
-                              index: index,
-                              operation_controller: operationController,
-                            )),
-                    onLoading: const Center(child: CircularProgressIndicator()),
-                    onEmpty: const Center(child: Text('No products available')),
-                    onError: (error) {
-                      snackbar_message(error);
-                      return Container();
-                    },
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/splash_Background.png"),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center),
+                  gradient: LinearGradient(
+                      colors: [kAlphaColor, kBetaColor],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter)),
+              child: Container(
+                margin:
+                    const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
+                child: Column(children: [
+                  const SizedBox(
+                    height: 150,
                   ),
-                )
-              ]),
+                  ScreenHead(context, "History", Ionicons.server_outline),
+                  const SizedBox(
+                    height: kMainPadding,
+                  ),
+                  // Padding(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(horizontal: kMainPadding / 2),
+                  //   child: SerachBar<OperationMODEL>(context,
+                  //       items: [],
+                  //       filter: (OperationMODEL operation) =>
+                  //           [operation.device_id , operation.tds_readings],
+                  //       builder: (OperationMODEL operation) => HistoryCardItem(
+                  //           operation: operation,
+                  //           index: 0,
+                  //           operation_controller: operationController)),
+                  // ),
+                  // const SizedBox(
+                  //   height: kMainPadding,
+                  // ),
+                  Expanded(
+                    child: operationController.obx(
+                      (operations) => ListView.separated(
+                          separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(),
+                          itemCount: operations!.length,
+                          itemBuilder: (BuildContext context, int index) =>
+                              HistoryCardItem(
+                                operation: operations[index],
+                                index: index,
+                                operation_controller: operationController,
+                              )),
+                      onLoading:
+                          const Center(child: CircularProgressIndicator()),
+                      onEmpty: const Center(
+                          child: EmptyResult(
+                        message: "No operations found",
+                        unDrawIllustration: UnDrawIllustration.empty,
+                      )),
+                      onError: (error) {
+                        // snackbar_message(error.toString());
+                        print(error.toString());
+                        return Container();
+                      },
+                    ),
+                  )
+                ]),
+              ),
             ),
           );
         });
@@ -121,13 +141,7 @@ class HistoryCardItem extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: kMainPadding / 2),
-              child: Icon(
-                Ionicons.ellipsis_vertical,
-                color: Colors.white,
-              ),
-            )
+            SizedBox()
           ],
         ),
         const SizedBox(
@@ -154,7 +168,7 @@ class HistoryCardItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${operation.ph_readings}%",
+                          operation.ph_readings!.toStringAsFixed(2),
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               fontFamily: "main_font",
@@ -162,12 +176,13 @@ class HistoryCardItem extends StatelessWidget {
                               color: Colors.white),
                         ),
                         Text(
-                          "PH readings",
+                          "PH readings".tr,
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: "main_font",
-                              fontSize: 12.5,
-                              color: kMainColor.withOpacity(0.75)),
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.white),
                         ),
                       ],
                     ),
@@ -175,7 +190,7 @@ class HistoryCardItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "${operation.tds_readings}%",
+                          "${operation.tds_readings!.toStringAsFixed(2)} ppm",
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               fontFamily: "main_font",
@@ -183,33 +198,42 @@ class HistoryCardItem extends StatelessWidget {
                               color: Colors.white),
                         ),
                         Text(
-                          "TDS readings",
+                          "TDS readings".tr,
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontFamily: "main_font",
-                              fontSize: 12.5,
-                              color: kMainColor.withOpacity(0.75)),
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.white),
                         ),
                       ],
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(
+                                style: const TextStyle(
+                                    fontFamily: "main_font",
+                                    fontSize: 20,
+                                    color: Colors.white),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          "${operation.water_flow_value!.toStringAsFixed(2)} "),
+                                  const TextSpan(
+                                      text: "L/min",
+                                      style: TextStyle(fontSize: 15))
+                                ])),
                         Text(
-                          "${operation.water_flow_rate}%",
+                          "Pipe flow".tr,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                               fontFamily: "main_font",
-                              fontSize: 20,
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
                               color: Colors.white),
-                        ),
-                        Text(
-                          "Pipe flow",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontFamily: "main_font",
-                              fontSize: 12.5,
-                              color: kMainColor.withOpacity(0.75)),
                         ),
                       ],
                     )
@@ -221,12 +245,13 @@ class HistoryCardItem extends StatelessWidget {
                 child: Column(
                   children: [
                     Battery_Level(
-                        percentage: operation.session.battary!, height: 30),
+                        percentage: operation.session.battary ?? 0.0,
+                        height: 30),
                     const SizedBox(
                       height: kMainPadding / 8,
                     ),
                     Text(
-                      "${operation.session.battary! * 100}%",
+                      "${((operation.session.battary ?? 0) * 100).toStringAsFixed(2)}%",
                       textAlign: TextAlign.left,
                       style: const TextStyle(
                           fontFamily: "main_font",
@@ -253,7 +278,7 @@ class HistoryCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    "Tank:${operation.session.name}",
+                    "Tank".tr + ":${operation.session.name}",
                     style: const TextStyle(
                         fontFamily: "main_font",
                         fontSize: 12,
@@ -263,7 +288,8 @@ class HistoryCardItem extends StatelessWidget {
                     width: kMainPadding,
                   ),
                   Text(
-                    "Date:${DateFormat.yMd().add_jm().format(operation.date!.toDate())}",
+                    "Date".tr +
+                        ":${DateFormat.yMd().add_jm().format(operation.date!)}",
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                         fontFamily: "main_font",
@@ -284,7 +310,7 @@ class HistoryCardItem extends StatelessWidget {
                       bottomRight: Radius.circular(kMainRadius / 3))),
               child: Center(
                 child: Text(
-                  "${operation.state}",
+                  "${operation.state}".tr,
                   style: const TextStyle(
                       fontFamily: "main_font",
                       fontSize: 12.5,

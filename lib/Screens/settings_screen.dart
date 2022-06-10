@@ -18,15 +18,15 @@ class Settings_SCREEN extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: kBetaColor,
-        body: GetBuilder<Localstorage_CONTROLLER>(
-            init: Get.find<Localstorage_CONTROLLER>(),
+        body: GetBuilder<LocalstorageCONTROLLER>(
+            init: Get.find<LocalstorageCONTROLLER>(),
             builder: (controller) {
               return SingleChildScrollView(
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage(
                                   "assets/images/splash_Background.png"),
@@ -37,10 +37,10 @@ class Settings_SCREEN extends StatelessWidget {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter)),
                       child: Container(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: kMainPadding / 2),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: kMainPadding / 2),
                         child: Column(children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 150,
                           ),
                           ScreenHead(
@@ -48,7 +48,7 @@ class Settings_SCREEN extends StatelessWidget {
                             "Settings",
                             Icons.settings,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: kMainPadding,
                           ),
                           Padding(
@@ -56,21 +56,21 @@ class Settings_SCREEN extends StatelessWidget {
                                 vertical: kMainPadding),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: kMainPadding * 2,
                                 ),
                                 Text(
-                                  "Langague:",
-                                  style: TextStyle(
+                                  "Langauge".tr + ":",
+                                  style: const TextStyle(
                                       fontFamily: "main_font",
                                       fontSize: 22.5,
                                       color: Colors.white),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: kMainPadding * 2,
                                 ),
                                 Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: kMainPadding * 2),
                                   decoration: BoxDecoration(
                                       color: Colors.transparent,
@@ -81,25 +81,26 @@ class Settings_SCREEN extends StatelessWidget {
                                     child: DropdownButton<String>(
                                       dropdownColor: kAlphaColor,
                                       value: controller.getLanguage,
-                                      icon: Padding(
-                                        padding: const EdgeInsets.symmetric(
+                                      icon: const Padding(
+                                        padding: EdgeInsets.symmetric(
                                             horizontal: kMainPadding / 2),
                                         child: Icon(
                                           Icons.language,
                                           color: Colors.white,
                                         ),
                                       ),
-                                      items: langaugesDropdownList.map(
-                                          (lang) => DropdownMenuItem(
+                                      items: langaugesDropdownList
+                                          .map((lang) => DropdownMenuItem(
                                                 value: lang,
                                                 child: Text(
                                                   lang.tr,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontFamily: "main_font",
                                                       fontSize: 17.5,
                                                       color: Colors.white),
                                                 ),
-                                              )).toList(),
+                                              ))
+                                          .toList(),
                                       onChanged: (item) =>
                                           controller.changeLangague(item!),
                                     ),
@@ -108,7 +109,7 @@ class Settings_SCREEN extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: kMainPadding,
                           ),
                           Container(
@@ -122,17 +123,17 @@ class Settings_SCREEN extends StatelessWidget {
                                 vertical: kMainPadding),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: kMainPadding * 2,
                                 ),
                                 Text(
-                                  "Notification:",
-                                  style: TextStyle(
+                                  "Notification".tr + ":",
+                                  style: const TextStyle(
                                       fontFamily: "main_font",
                                       fontSize: 22.5,
                                       color: Colors.white),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: kMainPadding * 2,
                                 ),
                                 Switch(
@@ -143,7 +144,7 @@ class Settings_SCREEN extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: kMainPadding,
                           ),
                           Container(
@@ -152,39 +153,53 @@ class Settings_SCREEN extends StatelessWidget {
                             color: Colors.white,
                             // margin: EdgeInsets.symmetric(horizontal: kMainPadding / 2),
                           ),
-                          SizedBox(
+                          const SizedBox(
+                            height: kMainPadding,
+                          ),
+                          // InkWell(
+                          //   onTap: () {
+                          //     controller.removeDefaultTank();
+                          //   },
+                          //   child: Container(
+                          //     width: 250,
+                          //     height: 75,
+                          //     color: Colors.green,
+                          //   ),
+                          // ),
+                          const SizedBox(
                             height: kMainPadding,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                "About Us",
-                                style: TextStyle(
+                                "About us".tr,
+                                style: const TextStyle(
                                     fontFamily: "main_font",
                                     fontSize: 22.5,
                                     color: Colors.white),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: kMainPadding,
                               ),
                               Container(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     horizontal: kMainPadding / 2),
-                                child: Text(
+                                child: const Text(
                                   aboutUs,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: "main_font",
                                       fontSize: 13,
                                       color: Colors.white),
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.all(kMainPadding),
-                                child: Image(
+                                margin: const EdgeInsets.all(kMainPadding),
+                                child: const Image(
                                   width: 180,
-                                  image: AssetImage("assets/images/tu_logo.png"),
+                                  image: const AssetImage(
+                                      "assets/images/tu_logo.png"),
                                 ),
                               ),
                             ],
@@ -192,7 +207,7 @@ class Settings_SCREEN extends StatelessWidget {
                         ]),
                       ),
                     ),
-                    PrivateAppBar(),
+                    const PrivateAppBar(),
                   ],
                 ),
               );

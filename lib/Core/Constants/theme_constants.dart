@@ -22,7 +22,7 @@ ThemeData kAPP_THEME = ThemeData(
 
 void snackbar_message(message, {seconds = 3, success = false}) {
   Get.snackbar("Ops!", '$message', onTap: (tap) {
-    snackbar_message(message, seconds: 5, success: success);
+    // snackbar_message(message, seconds: 5, success: success);
   },
       backgroundColor: success
           ? kSuccessfulStateColor.withOpacity(0.5)

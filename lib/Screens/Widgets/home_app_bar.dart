@@ -39,7 +39,7 @@ class MainBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(kMainRadius / 8)),
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(() => NotificaitonSCREEN());
+                      Get.to(() => NotificationSCREEN());
                     },
                     child: const Icon(
                       Icons.notifications,

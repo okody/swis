@@ -9,7 +9,7 @@ import 'package:swis/Core/Services/firebase_info.dart';
 import 'package:swis/Models/operation_model.dart';
 import 'package:swis/Models/session_model.dart';
 
-class Localstorage_CONTROLLER extends GetxController {
+class LocalstorageCONTROLLER extends GetxController {
   /// ====================================== [Instances] ======================================
   /// 1- [Vars]
 
@@ -17,7 +17,6 @@ class Localstorage_CONTROLLER extends GetxController {
   final localeStorageBox = GetStorage();
 
   /// 2- [Funs]
-
 
   /// ====================================== [Langauge] ======================================
 
@@ -44,28 +43,53 @@ class Localstorage_CONTROLLER extends GetxController {
   }
 
   /// ====================================== [Session] ======================================
-  Future<void> saveDefaultTank(SessionMODEL session) async {
-    await localeStorageBox.write("DefaultTank", json.encode(session.toStore()));
-    update();
-  }
+  // Future<void> saveDefaultTank(SessionMODEL session) async {
+  //   await localeStorageBox.write("DefaultTank", json.encode(session.toStore()));
+  //   update();
+  // }
 
-  SessionMODEL get getDefaultTank {
-    String DefaultTank = localeStorageBox.read("DefaultTank") ?? "";
-    return Response_MODEL().toModel(SessionMODEL(),
-        mainData: DefaultTank.isNotEmpty
-            ? json.decode(DefaultTank)
-            : SessionMODEL().toStore());
+  // void removeDefaultTank() {
+  //   localeStorageBox.remove("DefaultTank");
+  // }
+
+  // SessionMODEL get getDefaultTank {
+  //   String defaultTank = localeStorageBox.read("DefaultTank") ?? "";
+
+  //   return ResponseMODEL().toModel(SessionMODEL(),
+  //       mainData: defaultTank.isNotEmpty
+  //           ? json.decode(defaultTank)
+  //           : SessionMODEL().toStore());
+  // }
+
+  void firstify(String doc_id) {
+
+    List<SessionMODEL> temp = getAvailableTanks;
+    localeStorageBox.remove("AvailableTanks");
+    print(temp.first.device_id);
+        SessionMODEL firstSession =
+        temp.where((element) => element.document_id == doc_id).toList().first;
+    temp.removeWhere((element) => element.document_id == doc_id);
+    temp.insert(0, firstSession);
+   
+    saveAvailableTanks(temp);
+
+    print(getAvailableTanks.first.device_id);
+
+    
+
   }
 
   Future<void> saveAvailableTanks(List<SessionMODEL> sessions) async {
+  
     await localeStorageBox.write("AvailableTanks",
         json.encode(sessions.map((session) => session.toStore()).toList()));
   }
 
-  List<SessionMODEL> getAvailableTanks() {
-    return List<SessionMODEL>.from(Response_MODEL().toListModels(
-        SessionMODEL(),
-        mainData: json.decode(localeStorageBox.read("AvailableTanks")!)));
+  List<SessionMODEL> get getAvailableTanks {
+    final tanks = json.decode(localeStorageBox.read("AvailableTanks")!);
+
+    return List<SessionMODEL>.from(ResponseMODEL().toListModels(SessionMODEL(),
+        mainData: tanks ?? []));
   }
 
   /// ====================================== [Operation] ======================================

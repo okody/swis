@@ -4,12 +4,14 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:swis/Core/Constants/theme_constants.dart';
 import 'package:swis/Core/Utils/helpers/binding.dart';
+import 'package:swis/Core/Utils/helpers/local_notification.dart';
 import 'package:swis/Core/Utils/translation.dart';
 import 'package:swis/Screens/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  LocalNotificationService.initialize();
   await GetStorage.init();
   runApp(const MyApp());
 }

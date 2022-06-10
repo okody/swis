@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:swis/Core/Constants/theme_constants.dart';
 import 'package:swis/Core/Controllers/session_controller.dart';
 import 'package:swis/Core/Services/firebase_info.dart';
 import 'package:swis/Core/Services/notification_service.dart';
+import 'package:swis/Core/Utils/localstorage.dart';
 import 'package:swis/Models/notification_model.dart';
 import 'package:swis/Models/session_model.dart';
 
@@ -11,7 +11,9 @@ class NotificationCONTROLLER extends GetxController
     with StateMixin<List<Notification_MODEL>> {
   /// ====================================== [Instances] ======================================
   /// 1- [Vars]
-  Notification_SERVICE notification_service = Notification_SERVICE();
+  NotificationSERVICE notificationSERVICE = NotificationSERVICE();
+  LocalstorageCONTROLLER localstorageCONTROLLER =
+      Get.find<LocalstorageCONTROLLER>();
 
   /// 2- [Funs]
 
@@ -20,13 +22,18 @@ class NotificationCONTROLLER extends GetxController
   // List<Notification_MODEL> get notifications => _notifications;
 
   Future<void> getNotifications() async {
-    SessionCONTROLLER session_controller = Get.put(SessionCONTROLLER());
-    List<SessionMODEL> sessions = await session_controller.getSessions;
+    List<SessionMODEL> sessions = localstorageCONTROLLER.getAvailableTanks;
+
     List<String> devices_ids =
         sessions.map((session) => session.device_id!).toList();
 
-    Response_MODEL response = await notification_service.getNotifications(
-        devices_ids, _getFirstSessionDate(sessions));
+    ResponseMODEL response;
+    if (sessions.isNotEmpty) {
+      print(_getFirstSessionDate(sessions));
+      response = await notificationSERVICE.getNotifications(devices_ids);
+    } else {
+      response = ResponseMODEL(success: true, data: []);
+    }
 
     if (response.success) {
       // decode data to a List of Operation Model
@@ -49,7 +56,7 @@ class NotificationCONTROLLER extends GetxController
   DateTime _getFirstSessionDate(List<SessionMODEL>? sessions) {
     Timestamp time;
     List<DateTime> dates = [];
-    sessions?.forEach((element) => dates.add(element.date!.toDate()));
+    sessions?.forEach((element) => dates.add(element.date!));
 
     return dates.reduce((a, b) => a.isBefore(b) ? a : b);
   }

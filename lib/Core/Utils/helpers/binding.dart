@@ -7,7 +7,7 @@ class MainBinding extends Bindings {
   @override
   void dependencies() {
     // TODO: implement dependencies
-    Get.lazyPut(() => Localstorage_CONTROLLER());
+    Get.lazyPut(() => LocalstorageCONTROLLER());
     Get.lazyPut(() => Home_CONTROLLER());
     Get.lazyPut(() => OperationCOTROLLER());
   }

@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:swis/Core/Controllers/operation_controller.dart';
 import 'package:swis/Core/Services/firebase_info.dart';
 import 'package:swis/Core/Services/session_service.dart';
 import 'package:swis/Core/Utils/localstorage.dart';
@@ -13,8 +14,11 @@ class SessionCONTROLLER extends GetxController
   /// 1- [Vars]
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   final Session_SERVICE session_service = Session_SERVICE();
-  final Localstorage_CONTROLLER localstorage_controller =
-      Get.find<Localstorage_CONTROLLER>();
+  final LocalstorageCONTROLLER localstorageCONTROLLER =
+      Get.find<LocalstorageCONTROLLER>();
+
+  ValueNotifier<bool> get loading => _loading;
+  final ValueNotifier<bool> _loading = ValueNotifier(false);
 
   /// 2- [Funs]
 
@@ -22,20 +26,23 @@ class SessionCONTROLLER extends GetxController
 
   /// ====================================== [UIFunctions_Variables] ======================================
 
-  List<Map> TextFeidlsInfo = [
+  List<Map<String, dynamic>> textFeidlsInfo = [
     {
       "title": "Device ID*",
       "textController": TextEditingController(),
+      "value": "",
       "example": "tank001-500"
     },
     {
       "title": "Device Key*",
       "textController": TextEditingController(),
+      "value": "",
       "example": "tank001-500"
     },
     {
       "title": "Session name*",
       "textController": TextEditingController(),
+      "value": "",
       "example": "tank001-500"
     },
   ];
@@ -45,6 +52,7 @@ class SessionCONTROLLER extends GetxController
   }
 
   /// ====================================== [CRUD] ======================================
+
   final List<SessionMODEL> _sessions = [];
   List<SessionMODEL> get sessions => _sessions;
 
@@ -52,33 +60,27 @@ class SessionCONTROLLER extends GetxController
   // }
 
   Future<void> onCreateSession(context) async {
+    _loading.value = true;
+    update();
     SessionMODEL session = SessionMODEL(
-        name: TextFeidlsInfo[2]["textController"].text,
-        device_id: TextFeidlsInfo[0]["textController"].text);
+        name: textFeidlsInfo[2]["textController"].text,
+        device_id: textFeidlsInfo[0]["textController"].text);
     session.updatePhone(await firebaseMessaging.getToken());
 
-
-
-    Response_MODEL isValid = await session_service.checkDevice(
-        TextFeidlsInfo[0]["textController"].text,
-        TextFeidlsInfo[1]["textController"].text);
-
-        
-
+    ResponseMODEL isValid = await session_service.checkDevice(
+        textFeidlsInfo[0]["textController"].text,
+        textFeidlsInfo[1]["textController"].text);
 
     // if check the device with out any errors
     if (isValid.success) {
       if (isValid.data) {
-        Response_MODEL response = await session_service.createSession(session);
+        ResponseMODEL response = await session_service.createSession(session);
+
         if (response.success) {
           snackbar_message(response.message, success: true);
 
-        
-
-          localstorage_controller.saveDefaultTank(
-              response.toModel(SessionMODEL(), mainData: response.data));
-
-          // Navigator.pop(context);
+          Get.find<OperationCOTROLLER>().featchRefresh();
+          Get.back();
           update();
           refreshSessionList();
         } else {
@@ -91,27 +93,36 @@ class SessionCONTROLLER extends GetxController
     } else {
       snackbar_message(isValid.message);
     }
+    _loading.value = false;
+    update();
   }
 
   Future<void> onRemoveSession(SessionMODEL session) async {
-    Response_MODEL response = await session_service.removeSession(session);
+    ResponseMODEL response = await session_service.removeSession(session);
+    getSessions;
+    Get.find<OperationCOTROLLER>().featchRefresh();
+    update();
+
     snackbar_message(response.message);
   }
 
   Future<List<SessionMODEL>> get getSessions async {
-    Response_MODEL response =
+    ResponseMODEL response =
         await session_service.getSesstions(await firebaseMessaging.getToken());
 
     if (response.success) {
       // decode data to a List of Operation Model
-      var data =
-          List<SessionMODEL>.from(response.toListModels(SessionMODEL()));
+      var data = List<SessionMODEL>.from(response.toListModels(SessionMODEL()));
       // check if data empty or not , if not the the status is sucess and move data to widget if yes status is empty
 
-      localstorage_controller.saveAvailableTanks(data);
-      data.isNotEmpty
-          ? change(data, status: RxStatus.success())
-          : change(null, status: RxStatus.empty());
+      if (data.isNotEmpty) {
+        localstorageCONTROLLER.saveAvailableTanks(data);
+        change(data, status: RxStatus.success());
+      } else {
+        localstorageCONTROLLER.saveAvailableTanks([]);
+        change(null, status: RxStatus.empty());
+      }
+
       // snackbar_message(response.message);
 
       // save locally
@@ -122,6 +133,11 @@ class SessionCONTROLLER extends GetxController
       change(null, status: RxStatus.error(response.message));
       return [];
     }
+  }
+
+  Future<void> updateEnableNotificatoin(String doc_id, bool isEnabled) async {
+    // ResponseMODEL response =
+    //     await session_service.updateNotificationEnable(doc_id, isEnabled);
   }
 
   /// ====================================== [Override_Functions] ======================================

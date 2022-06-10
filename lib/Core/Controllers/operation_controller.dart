@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swis/Core/Constants/data_constants.dart';
@@ -13,10 +15,10 @@ class OperationCOTROLLER extends GetxController
     with StateMixin<List<OperationMODEL>> {
   /// ====================================== [Instances] ======================================
   /// 1- [Vars]
-  Operation_SERVICE operation_service = Operation_SERVICE();
+  OperationSERVICE operationSERVICE = OperationSERVICE();
   // get selected defalut tank to fetch last operation on it
-  Localstorage_CONTROLLER localstorage_controller =
-      Get.find<Localstorage_CONTROLLER>();
+  LocalstorageCONTROLLER localstorageCONTROLLER =
+      Get.find<LocalstorageCONTROLLER>();
 
   ValueNotifier<bool> get loading => _loading;
   final ValueNotifier<bool> _loading = ValueNotifier(false);
@@ -27,26 +29,29 @@ class OperationCOTROLLER extends GetxController
   /// [1] - [getDefaultTank]
   /// [2] - [onTankSelected]
 
-  SessionMODEL? defaultTank;
+  // void getDefaultTank() {
+  //   defaultTank = localstorageCONTROLLER.getDefaultTank;
+  //   // defaultTank = SessionMODEL(device_id: "tank001");
+  // }
 
-  void getDefaultTank() {
-    defaultTank = localstorage_controller.getDefaultTank;
-    // defaultTank = SessionMODEL(device_id: "tank001");
-  }
-
-  Color getOperationStateColor(String State) {
-    if (State == operationSuccessState) {
+  Color getOperationStateColor(String state) {
+    if (state == operationSuccessState) {
       return kSuccessfulStateColor;
-    } else if (State == operationUnsuccessState) {
+    } else if (state == operationUnsuccessState) {
       return kUnsuccessfulStateColor;
     } else {
       return kDanagerStateColor;
     }
   }
 
-  void onTankSelected(SessionMODEL session) {
-    localstorage_controller.saveDefaultTank(session);
-    getDefaultTank();
+  void onTankSelected(String docId) {
+    // 2 - Save as a defualt tank
+    localstorageCONTROLLER.firstify(docId);
+
+    // // 4- get last operation based one defulat tank we've just stored
+    getOperations();
+
+    update();
   }
 
   /// ====================================== [CRUD] ======================================
@@ -57,16 +62,19 @@ class OperationCOTROLLER extends GetxController
   // List<OperationMODEL> get operations => _operations;
 
   Future<void> getOperations() async {
-    SessionCONTROLLER session_controller = Get.put(SessionCONTROLLER());
-    List<SessionMODEL> sessions = await session_controller.getSessions;
-    List<String> devices_ids =
+    SessionCONTROLLER sessionCONTROLLER = Get.put(SessionCONTROLLER());
+
+    List<SessionMODEL> sessions = await sessionCONTROLLER.getSessions;
+
+    List<String> deviceIds =
         sessions.map((session) => session.device_id!).toList();
 
     // fetch data from server
     _loading.value = true;
-    Response_MODEL response =
-        await operation_service.getOperations(devices_ids);
+    update();
+    ResponseMODEL response = await operationSERVICE.getOperations(deviceIds);
     _loading.value = false;
+    update();
 
     if (response.success) {
       // decode data to a List of Operation Model
@@ -78,9 +86,14 @@ class OperationCOTROLLER extends GetxController
       });
 
       // check if data empty or not , if not the the status is sucess and move data to widget if yes status is empty
-      data.isNotEmpty
-          ? change(data, status: RxStatus.success())
-          : change(null, status: RxStatus.empty());
+
+      if (data.isNotEmpty) {
+        change(data, status: RxStatus.success());
+        _lastOperation = data.first;
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+
       // snackbar_message(response.message, success: true);
     } else {
       // if data has error show the letter
@@ -88,45 +101,11 @@ class OperationCOTROLLER extends GetxController
     }
   }
 
-  Rx<Response_MODEL> fastResponse = Response_MODEL().obs;
-  // Rx<OperationMODEL>? _lastOperation = OperationMODEL().obs;
-  // OperationMODEL get lastOperation => OperationMODEL();
-  // Response_MODEL get fastResponse => _fastResponse.value;
-
-  Future<void> getLastOperation() async {
-    // fastResponse.bindStream(
-    //     operation_service.getLastOperation(defaultTank!.device_id!));
-
-    // fetch data from server
-
-    Response_MODEL response =
-        await operation_service.getLastOperation(defaultTank!.device_id!);
-
-    operation_service.getLastOperation(defaultTank!.device_id!);
-
-    if (response.success) {
-      // decode data to a List of Operation Model
-      var data =
-          List<OperationMODEL>.from(response.toListModels(OperationMODEL()));
-
-      // check if data empty or not , if not the the status is sucess and move data to widget if yes status is empty
-      data.isNotEmpty
-          ? change(data, status: RxStatus.success())
-          : change(null, status: RxStatus.empty());
-      update();
-      // snackbar_message(response.message);
-    } else {
-      // if data has error show the letter
-      change(null, status: RxStatus.error(response.message));
-      update();
-    }
-  }
+  OperationMODEL get lastOperation => _lastOperation;
+  OperationMODEL _lastOperation = OperationMODEL().fromJson({});
 
   featchRefresh() {
-    // [0] - fetch default tank
-    getDefaultTank();
-    // [1] - fetch last operations
-    getLastOperation();
+    _lastOperation = OperationMODEL().fromJson({});
 
     // [2] - fetch all operatoins
     getOperations();
@@ -137,21 +116,12 @@ class OperationCOTROLLER extends GetxController
   /// ====================================== [Override_Functions] ======================================
   @override
   void onInit() {
-    // [0] - fetch default tank
-    getDefaultTank();
     // [1] - fetch last operations
-    getLastOperation();
+    // getLastOperation();
 
     // [2] - fetch all operatoins
     getOperations();
 
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    // TODO: implement onReady
-
-    super.onReady();
   }
 }
